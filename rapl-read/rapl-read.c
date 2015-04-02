@@ -260,9 +260,13 @@ static int rapl_msr(int core) {
   pp0_before=(double)result*energy_units;
   printf("PowerPlane0 (core) for core %d energy before: %.6fJ\n",core,pp0_before);
 
-  result=read_msr(fd,MSR_PP0_POLICY);
-  int pp0_policy=(int)result&0x001f;
-  printf("PowerPlane0 (core) for core %d policy: %d\n",core,pp0_policy);
+  /* NOT available on Haswell-EP */
+  if (cpu_model!=CPU_HASWELL_EP)
+  {
+    result=read_msr(fd,MSR_PP0_POLICY);
+    int pp0_policy=(int)result&0x001f;
+    printf("PowerPlane0 (core) for core %d policy: %d\n",core,pp0_policy);
+  }
 
   /* only available on *Bridge-EP */
   if ((cpu_model==CPU_SANDYBRIDGE_EP) || (cpu_model==CPU_IVYBRIDGE_EP))
@@ -352,7 +356,7 @@ static int rapl_perf(int core) {
 	fff=fopen("/sys/bus/event_source/devices/power/type","r");
 	if (fff==NULL) {
 		printf("No perf_event rapl support found (requires Linux 3.14)\n");
-		printf("Falling back to raw msr support\n");
+		printf("Falling back to raw msr support\n\n");
 		return -1;
 	}
 	fscanf(fff,"%d",&type);
