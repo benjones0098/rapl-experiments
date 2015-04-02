@@ -5,7 +5,7 @@ LFLAGS = -lm
 all:	rapl-read
 
 rapl-read:	rapl-read.o
-	$(CC) $(LFLAGS) -o rapl-read rapl-read.o
+	$(CC) -o rapl-read rapl-read.o $(LFLAGS)
 
 rapl-read.o:	rapl-read.c
 	$(CC) $(CFLAGS) -c rapl-read.c

@@ -108,6 +108,7 @@ static long long read_msr(int fd, int which) {
 #define CPU_IVYBRIDGE		58
 #define CPU_IVYBRIDGE_EP	62
 #define CPU_HASWELL		60
+#define CPU_HASWELL_EP   63
 
 static int detect_cpu(void) {
 
@@ -165,6 +166,9 @@ static int detect_cpu(void) {
 		case CPU_HASWELL:
 			printf("Found Haswell CPU\n");
 			break;
+    case CPU_HASWELL_EP:
+      printf("Found Haswell-EP CPU\n");
+      break;
 		default:	printf("Unsupported model %d\n",model);
 				model=-1;
 				break;
